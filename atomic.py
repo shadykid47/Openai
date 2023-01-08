@@ -26,6 +26,7 @@ def GetResponseFromOpenAI(api_key, question, engine, tokens, filename):
         print("PROMPT IS - ", prompt)
         response = GetCompletions(api_key, prompt, question, engine, tokens)
         print("RESPONSE IS - ",response)
+        print("\n")
         response_list.append(response)
         time.sleep(5)
 
