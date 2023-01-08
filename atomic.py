@@ -24,7 +24,7 @@ def GetResponseFromOpenAI(api_key, question, engine, tokens, filename):
         print("On message number - ", m)
         print("\n")
         prompt = messages.iloc[m]
-        print("PROMPT IS - ", prompt)
+        print("PROMPT IS - \n", prompt)
         print("\n")
         response = GetCompletions(api_key, prompt, question, engine, tokens)
         print("RESPONSE IS - ",response)
