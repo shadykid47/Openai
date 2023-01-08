@@ -16,7 +16,8 @@ def GetCompletions(prompt, question, engine, tokens):
     return completion
 
 def GetResponseFromOpenAI(question, engine, tokens, filename):
-    messages = ReadExcelFile(filename)
+    filepath = '/content/drive/MyDrive/' + filename
+    messages = ReadExcelFile(filepath)
     response_list = []
 
     for m in range(len(messages)):
