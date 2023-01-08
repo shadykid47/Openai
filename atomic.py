@@ -1,7 +1,6 @@
 import openai
 import pandas as pd
 import time
-import numpy as np
 
 def ReadExcelFile(filename):
     try:
@@ -21,7 +20,6 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
 def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
-    messages['Response'] = np.nan
     response_list = []
     message_list = []
 
