@@ -24,7 +24,7 @@ def GetResponseFromOpenAI(api_key, question, engine, tokens, filename):
         prompt = messages.iloc[m]
         response = GetCompletions(api_key, prompt, question, engine, tokens)
         response_list.append(response)
-        time.sleep(2)
+        time.sleep(5)
 
     responses = pd.concat(response_list)
     responses.to_csv("Result of - " + filename)
