@@ -13,7 +13,7 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
     openai.api_key = api_key
     completion = openai.Completion.create(engine=engine, max_tokens=tokens, prompt= str(prompt) + " | " + question)
-    return completion
+    return completion.choices[0].text
 
 def GetResponseFromOpenAI(api_key, question, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
