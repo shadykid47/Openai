@@ -12,7 +12,7 @@ def GetCompletions(prompt, question, engine, tokens):
     api_key = "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"
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
     openai.api_key = api_key
-    completion = openai.Completion.create(engine=engine, max_tokens=tokens, prompt= prompt + " | " + question)
+    completion = openai.Completion.create(engine=engine, max_tokens=tokens, prompt= str(prompt) + " | " + question)
     return completion
 
 def GetResponseFromOpenAI(question, engine, tokens, filename):
