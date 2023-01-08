@@ -1,5 +1,6 @@
 import openai
 import pandas as pd
+import time
 
 def ReadExcelFile(filename):
     try:
@@ -24,6 +25,7 @@ def GetResponseFromOpenAI(question, engine, tokens, filename):
         prompt = messages.iloc[m]
         response = GetCompletions(prompt, question, engine, tokens)
         response_list.append(response)
+        time.sleep(2)
 
     responses = pd.concat(response_list)
     responses.to_csv("Result of - " + filename)
