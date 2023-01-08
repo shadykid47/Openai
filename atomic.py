@@ -10,7 +10,7 @@ def ReadExcelFile(filename):
     return df
 
 def GetCompletions(prompt, question, engine, tokens):
-    api_key = "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"
+    api_key = "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"
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
     openai.api_key = api_key
     completion = openai.Completion.create(engine=engine, max_tokens=tokens, prompt= str(prompt) + " | " + question)
