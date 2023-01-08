@@ -23,7 +23,7 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     response_list = []
     message_list = []
 
-    for m in range(5):
+    for m in range(len(messages)):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
