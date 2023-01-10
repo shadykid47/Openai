@@ -16,8 +16,10 @@ def SaveaCopy(df):
     resultpath = '/content/drive/MyDrive/Results'
     try:
         df.to_excel(resultpath + '.xlsx')
+        resultpath = resultpath + '.xlsx'
     except:
         df.to_csv(resultpath + '.csv')
+        resultpath = resultpath + '.csv'
     return resultpath
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
