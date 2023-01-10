@@ -13,7 +13,8 @@ def ReadExcelFile(filepath):
     except:
         df = pd.read_csv(filepath)
         filename = os.path.split(filepath)[1]
-        df.to_csv(filepath + '\Copy_Of_' + filename)
+        folderpath = os.path.split(filepath)[0]
+        df.to_csv(folderpath + '\Copy_Of_' + filename)
     
     return df
   
