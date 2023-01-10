@@ -9,7 +9,8 @@ def ReadExcelFile(filepath):
         df = pd.read_excel(filepath)
         filename = os.path.split(filepath)[1]
         folderpath = os.path.split(filepath)[0]
-        df.to_csv(folderpath + '\Copy_Of_' + filename)
+        copypath = folderpath + '\Copy Of ' + filename
+        df.to_excel(copypath)
     except:
         df = pd.read_csv(filepath)
         filename = os.path.split(filepath)[1]
