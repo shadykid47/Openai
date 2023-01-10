@@ -4,18 +4,15 @@ import time
 import openpyxl
 import os, glob
 
-def ReadExcelFile(filepath):
+def ReadExcelFile(filename):
     try:
-        df = pd.read_excel(filepath)
-        filename = os.path.split(filepath)[1]
-        folderpath = os.path.split(filepath)[0]
-        copypath = folderpath + '\Copy Of ' + filename
-        df.to_excel(copypath)
+        df = pd.read_excel(filename)
+        folderpath = '/content/drive/MyDrive/'
+        df.to_excel(folderpath + 'Copy of ' + filename)
     except:
-        df = pd.read_csv(filepath)
-        filename = os.path.split(filepath)[1]
-        folderpath = os.path.split(filepath)[0]
-        df.to_csv(folderpath + '\Copy_Of_' + filename)
+        df = pd.read_excel(filename)
+        folderpath = '/content/drive/MyDrive/'
+        df.to_csv(folderpath + 'Copy of ' + filename)
     
     return df
   
