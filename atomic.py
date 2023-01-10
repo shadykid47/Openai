@@ -11,12 +11,14 @@ def ReadExcelFile(filepath):
         df = pd.read_csv(filepath)    
     return df
 
+# This function saves a copy of the file as Results and returns the result file path 
 def SaveaCopy(df):
-    copypath = '/content/drive/MyDrive/Copy of File'
+    resultpath = '/content/drive/MyDrive/Results'
     try:
-        df.to_excel(copypath + '.xlsx')
+        df.to_excel(resultpath + '.xlsx')
     except:
-        df.to_csv(copypath + '.csv')
+        df.to_csv(resultpath + '.csv')
+    return resultpath
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
@@ -29,13 +31,13 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
 def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
-    SaveaCopy(messages)
+    resultpath = SaveaCopy(messages)
     print("Number of messages - ", len(messages))
-    xfile = openpyxl.load_workbook(filepath)
+    xfile = openpyxl.load_workbook(resultpath)
     sheet = xfile.get_sheet_by_name('Sheet1')
     sheet['B1'] = 'OPENAI RESPONSE'
 
-    for m in range(5):
+    for m in range(len(messages)):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
