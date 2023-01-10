@@ -2,12 +2,19 @@ import openai
 import pandas as pd
 import time
 import openpyxl
+import os, glob
 
-def ReadExcelFile(filename):
+def ReadExcelFile(filepath):
     try:
-        df = pd.read_excel(filename)
+        df = pd.read_excel(filepath)
+        filename = os.path.split(filepath)[1]
+        folderpath = os.path.split(filepath)[0]
+        df.to_csv(folderpath + '\Copy of ' + filename)
     except:
-        df = pd.read_csv(filename)
+        df = pd.read_csv(filepath)
+        filename = os.path.split(filepath)[1]
+        df.to_csv(filepath + '\Copy of ' + filename)
+    
     return df
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
