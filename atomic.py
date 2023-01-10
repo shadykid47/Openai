@@ -20,6 +20,7 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
 def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
+    print("Number of messages - ", len(messages))
     response_list = []
     message_list = []
 
