@@ -1,26 +1,14 @@
 import openai
 import pandas as pd
 import time
-import openpyxl
-import os, glob
+import random
 
-def ReadExcelFile(filepath):
+def ReadExcelFile(filename):
     try:
-        df = pd.read_excel(filepath)
+        df = pd.read_excel(filename)
     except:
-        df = pd.read_csv(filepath)    
+        df = pd.read_csv(filename)
     return df
-
-# This function saves a copy of the file as Results and returns the result file path 
-def SaveaCopy(df):
-    resultpath = '/content/drive/MyDrive/Results'
-    try:
-        df.to_excel(resultpath + '.xlsx')
-        resultpath = resultpath + '.xlsx'
-    except:
-        df.to_csv(resultpath + '.csv')
-        resultpath = resultpath + '.csv'
-    return resultpath
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
@@ -33,27 +21,28 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
 def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
-    resultpath = SaveaCopy(messages)
     print("Number of messages - ", len(messages))
-    xfile = openpyxl.load_workbook(resultpath)
-    sheet = xfile.get_sheet_by_name('Sheet1')
-    sheet['B1'] = 'Message'
-    sheet['C1'] = 'OPENAI RESPONSE'
+    response_list = []
+    message_list = []
 
     for m in range(len(messages)):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
         print("PROMPT IS - \n", prompt)
-        msgcell = 'B'+str(m+2)
-        sheet[msgcell] = prompt
         response = GetCompletions(api_key, prompt, question1, engine, tokens)
         print("RESPONSE IS - \n", response)
-        responsecell = 'C'+str(m+2)
-        sheet[responsecell] = response
-        xfile.save(filename)
         print("\n")
-        time.sleep(5)
+        response_list.append(response)
+        message_list.append(messages.iloc[m]['Message'])
+        rand = random.randint(5, 11)
+        time.sleep(rand)
+
+    message_series = pd.Series(message_list)
+    response_series = pd.Series(response_list)
+    # print(response_series)
+    responses = pd.concat([message_series, response_series], axis = 1)
+    responses.to_csv('/content/drive/MyDrive/' + "Results.csv")
 
 
-
+    
