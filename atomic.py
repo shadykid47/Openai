@@ -4,17 +4,19 @@ import time
 import openpyxl
 import os, glob
 
-def ReadExcelFile(filename):
+def ReadExcelFile(filepath):
     try:
-        df = pd.read_excel(filename)
-        folderpath = '/content/drive/MyDrive/'
-        df.to_excel(folderpath + 'Copy of ' + filename)
+        df = pd.read_excel(filepath)
     except:
-        df = pd.read_excel(filename)
-        folderpath = '/content/drive/MyDrive/'
-        df.to_csv(folderpath + 'Copy of ' + filename)
-    
+        df = pd.read_csv(filepath)    
     return df
+
+def SaveaCopy(df):
+    copypath = '/content/drive/MyDrive/Copy of File'
+    try:
+        df.to_excel(copypath)
+    except:
+        df.to_csv(copypath)
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
@@ -27,6 +29,7 @@ def GetCompletions(api_key, prompt, question, engine, tokens):
 def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
+    SaveaCopy(messages)
     print("Number of messages - ", len(messages))
     xfile = openpyxl.load_workbook(filename)
     sheet = xfile.get_sheet_by_name('Sheet1')
