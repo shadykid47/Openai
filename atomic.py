@@ -1,6 +1,7 @@
 import openai
 import pandas as pd
 import time
+import openpyxl
 
 def ReadExcelFile(filename):
     try:
@@ -21,24 +22,24 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     filepath = '/content/drive/MyDrive/' + filename
     messages = ReadExcelFile(filepath)
     print("Number of messages - ", len(messages))
-    response_list = []
-    message_list = []
+    xfile = openpyxl.load_workbook(filename)
+    sheet = xfile.get_sheet_by_name('Sheet1')
+    sheet['B1'] = 'OPENAI RESPONSE'
 
-    for m in range(len(messages)):
+    for m in range(5):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
-        # prompt = prompt[7:len(prompt)-24]
         print("PROMPT IS - \n", prompt)
+        msgcell = 'A'+str(m+2)
+        sheet[msgcell] = prompt
         response = GetCompletions(api_key, prompt, question1, engine, tokens)
         print("RESPONSE IS - \n", response)
+        responsecell = 'B'+str(m+2)
+        sheet[responsecell] = response
+        xfile.save(filename)
         print("\n")
-        response_list.append(response)
-        message_list.append(messages.iloc[m]['Message'])
         time.sleep(5)
 
-    message_series = pd.Series(message_list)
-    response_series = pd.Series(response_list)
-    # print(response_series)
-    responses = pd.concat([message_series, response_series], axis = 1)
-    responses.to_csv('/content/drive/MyDrive/' + "Results.csv")
+
+
