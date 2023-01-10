@@ -14,9 +14,9 @@ def ReadExcelFile(filepath):
 def SaveaCopy(df):
     copypath = '/content/drive/MyDrive/Copy of File'
     try:
-        df.to_excel(copypath)
+        df.to_excel(copypath + '.xlsx')
     except:
-        df.to_csv(copypath)
+        df.to_csv(copypath + '.csv')
   
 def GetCompletions(api_key, prompt, question, engine, tokens):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
@@ -31,7 +31,7 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     messages = ReadExcelFile(filepath)
     SaveaCopy(messages)
     print("Number of messages - ", len(messages))
-    xfile = openpyxl.load_workbook(filename)
+    xfile = openpyxl.load_workbook(filepath)
     sheet = xfile.get_sheet_by_name('Sheet1')
     sheet['B1'] = 'OPENAI RESPONSE'
 
