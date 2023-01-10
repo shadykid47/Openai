@@ -35,18 +35,19 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     print("Number of messages - ", len(messages))
     xfile = openpyxl.load_workbook(resultpath)
     sheet = xfile.get_sheet_by_name('Sheet1')
-    sheet['B1'] = 'OPENAI RESPONSE'
+    sheet['B1'] = 'Message'
+    sheet['C1'] = 'OPENAI RESPONSE'
 
     for m in range(len(messages)):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
         print("PROMPT IS - \n", prompt)
-        msgcell = 'A'+str(m+2)
+        msgcell = 'B'+str(m+2)
         sheet[msgcell] = prompt
         response = GetCompletions(api_key, prompt, question1, engine, tokens)
         print("RESPONSE IS - \n", response)
-        responsecell = 'B'+str(m+2)
+        responsecell = 'C'+str(m+2)
         sheet[responsecell] = response
         xfile.save(filename)
         print("\n")
