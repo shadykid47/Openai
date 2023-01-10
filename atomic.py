@@ -34,7 +34,7 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
         print("\n")
         response_list.append(response)
         message_list.append(messages.iloc[m]['Message'])
-        time.sleep(5)
+        time.sleep(8)
 
     message_series = pd.Series(message_list)
     response_series = pd.Series(response_list)
