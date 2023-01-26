@@ -15,9 +15,13 @@ def generate_response(prompt):
     message = atom.GetResponse(api_key, prompt, engine, tokens, temperature)
     return message
 
-st.title("ChatBot : Streamlit + openAI" )
+st.title("ChatBot : CustomerShastra" )
 
+# Storing the chat
 if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+
+if 'past' not in st.session_state:
     st.session_state['past'] = []
 
 def get_text():
@@ -31,7 +35,7 @@ if user_input:
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
 
-if st.session_state['generated']:
+if st.session_state.generated:
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         message(st.session_state['generated'][i], key=str(i))
-        message(st.session_state['past'][i], is_user=True, key=str(i)+'_user')  
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')  
