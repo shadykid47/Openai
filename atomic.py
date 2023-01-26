@@ -10,10 +10,18 @@ def ReadExcelFile(filename):
         df = pd.read_csv(filename)
     return df
   
-def GetCompletions(api_key, prompt, question, engine, tokens):
+def GetReasoningCompletions(api_key, prompt, question, engine, tokens, temperature):
     openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
     openai.api_key = api_key
-    completion = openai.Completion.create(engine=engine, max_tokens=tokens, prompt= str(prompt) + " || " + question)
+    completion = openai.Completion.create(engine=engine, max_tokens=tokens, n=1, stop=None, prompt= str(prompt) + " || " + question, temperature=temperature)
+    response = completion.choices[0].text
+    response = str(response)
+    return response.strip()
+
+def GetResponse(api_key, prompt, engine, tokens, temperature):
+    openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
+    openai.api_key = api_key
+    completion = openai.Completion.create(engine=engine, max_tokens=tokens, n=1, stop=None, prompt= str(prompt), temperature=temperature)
     response = completion.choices[0].text
     response = str(response)
     return response.strip()
@@ -30,7 +38,7 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
         print("PROMPT IS - \n", prompt)
-        response = GetCompletions(api_key, prompt, question1, engine, tokens)
+        response = GetReasoningCompletions(api_key, prompt, question1, engine, tokens)
         print("RESPONSE IS - \n", response)
         print("\n")
         response_list.append(response)
