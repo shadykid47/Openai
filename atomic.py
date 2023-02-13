@@ -37,8 +37,11 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
         print("On message number - ", m)
         prompt = messages.iloc[m]['Message']
         prompt = str(prompt)
-        print("PROMPT IS - \n", prompt)
-        response = GetReasoningCompletions(api_key, prompt, question1, engine, tokens)
+        # This removes no unicode characters from string
+        str_en = prompt.encode("ascii", "ignore")
+        str_de = str_en.decode()
+        print("PROMPT IS - \n", str_de)
+        response = GetReasoningCompletions(api_key, str_de, question1, engine, tokens)
         print("RESPONSE IS - \n", response)
         print("\n")
         response_list.append(response)
