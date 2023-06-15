@@ -55,5 +55,19 @@ def GetResponseFromOpenAI(api_key, question1, engine, tokens, filename):
     responses = pd.concat([message_series, response_series], axis = 1)
     responses.to_csv('/content/drive/MyDrive/' + "Results.csv")
 
+def GetKeywords(api_key, prompt, temperature):
+    openai.organization = "org-S3POWFAdvhzHFxU7FLRAMh4g"
+    openai.api_key = api_key
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="Extract keywords from this text:" + prompt,
+        temperature=temperature,
+        max_tokens=60,
+        top_p=1.0,
+        frequency_penalty=0.8,
+        presence_penalty=0.0).strip()
+    return response
+
+
 
     

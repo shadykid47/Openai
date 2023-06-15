@@ -3,39 +3,20 @@ import streamlit as st
 from streamlit_chat import message
 import atomic as atom
 
-api_key = openai.api_key = st.secrets['api_key']
+api_key = openai.api_key = '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'
 engine = 'text-davinci-003'
-question = ''
 
-tokens = 100
 temperature = 0.5
 
 
-def generate_response(prompt):
-    message = atom.GetResponse(api_key, prompt, engine, tokens, temperature)
-    return message
+question1 = 'Classify this sentence into Greeting or Query or Complaint, and give the response in only one word.'
+question = 'Generate a response that a chat bot will give.'
 
-st.title("ChatBot : CustomerShastra" )
 
-# Storing the chat
-if 'generated' not in st.session_state:
-    st.session_state['generated'] = []
+prompt = "I am unable to find the Sunfeast Mom's Magic Biscuits in my area."
+tokens = round(len(prompt)*1.5)
+response = atom.GetReasoningCompletions(api_key, prompt, question, engine, tokens, temperature)
+print(response)
 
-if 'past' not in st.session_state:
-    st.session_state['past'] = []
-
-def get_text():
-    input_text = st.text_input('You ', 'Hello, how are you?', key ='input')
-    return input_text
-
-user_input = get_text()
-
-if user_input:
-    output = generate_response(user_input)
-    st.session_state.past.append(user_input)
-    st.session_state.generated.append(output)
-
-if st.session_state.generated:
-    for i in range(len(st.session_state['generated'])-1, -1, -1):
-        message(st.session_state['generated'][i], key=str(i))
-        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')  
+# First message should be 'Hello, how may i help you ?
+# Then classify the user input and 
